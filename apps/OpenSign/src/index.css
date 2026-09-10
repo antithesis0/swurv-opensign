@@ -164,7 +164,7 @@ html body {
 
   /* Tour content improvements */
   .reactour__badge {
-    background-color: #007acc !important;
+    background-color: #1F1E5B !important;
     color: #ffffff !important;
   }
 
@@ -210,7 +210,7 @@ html body {
   }
 
   .react-datepicker__day--selected {
-    background-color: #007acc !important;
+    background-color: #1F1E5B !important;
     color: #ffffff !important;
   }
 
