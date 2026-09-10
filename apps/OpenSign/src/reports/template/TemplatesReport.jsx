@@ -1093,7 +1093,7 @@ const TemplatesReport = (props) => {
           <div className="font-light">
             {t(`report-name.${props.ReportName}`)}{" "}
             <sup className="cursor-pointer" onClick={() => setIsTour(true)}>
-              <i className="border-[#33bbff] text-[#33bbff] fa-light fa-question rounded-full border-[1px] py-[1.5px] px-[4px] text-[13px]"></i>
+              <i className="border-secondary text-secondary fa-light fa-question rounded-full border-[1px] py-[1.5px] px-[4px] text-[13px]"></i>
             </sup>
           </div>
           <div className="flex flex-row justify-center items-center gap-3 mb-2">

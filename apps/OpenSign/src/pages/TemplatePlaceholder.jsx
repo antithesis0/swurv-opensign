@@ -1857,7 +1857,7 @@ const TemplatePlaceholder = () => {
       ) : (
         <div className="relative op-card overflow-hidden flex flex-col md:flex-row justify-between bg-base-300">
           {isUiLoading && (
-            <div className="absolute h-full w-full flex flex-col justify-center items-center z-[999] bg-[#e6f2f2]/80">
+            <div className="absolute h-full w-full flex flex-col justify-center items-center z-[999] bg-base-200/80">
               <Loader />
               <span className="text-[13px]">{t("loading-mssg")}</span>
             </div>

@@ -1,6 +1,6 @@
 {
-  "short_name": "Open sign",
-  "name": "Open sign",
+  "short_name": "Swurv Sign",
+  "name": "Swurv Sign",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#111827",
+  "background_color": "#111827"
 }

@@ -13,7 +13,7 @@ const Guidelines = ({ pageNumber }) => {
             guideRefs.current[pageNumber] = {};
           guideRefs.current[pageNumber].top = el;
         }}
-        className="absolute pointer-events-none z-[1000] left-0 w-full border-t-[1px] border-dashed border-[#3b82f6]"
+        className="absolute pointer-events-none z-[1000] left-0 w-full border-t-[1px] border-dashed border-secondary"
         style={{ top: 0, display: "none" }}
       />
       {/* bottom guide */}
@@ -23,7 +23,7 @@ const Guidelines = ({ pageNumber }) => {
             guideRefs.current[pageNumber] = {};
           guideRefs.current[pageNumber].bottom = el;
         }}
-        className="absolute pointer-events-none z-[1000] left-0 w-full border-t-[1px] border-dashed border-[#3b82f6]"
+        className="absolute pointer-events-none z-[1000] left-0 w-full border-t-[1px] border-dashed border-secondary"
         style={{ top: 0, display: "none" }}
       />
       {/* Vertical guidelines */}
@@ -34,7 +34,7 @@ const Guidelines = ({ pageNumber }) => {
             guideRefs.current[pageNumber] = {};
           guideRefs.current[pageNumber].left = el;
         }}
-        className="absolute pointer-events-none z-[1000] top-0 h-full border-l-[1px] border-dashed border-[#3b82f6]"
+        className="absolute pointer-events-none z-[1000] top-0 h-full border-l-[1px] border-dashed border-secondary"
         style={{ left: 0, display: "none" }}
       />
       {/* right guide */}
@@ -44,7 +44,7 @@ const Guidelines = ({ pageNumber }) => {
             guideRefs.current[pageNumber] = {};
           guideRefs.current[pageNumber].right = el;
         }}
-        className="absolute pointer-events-none z-[1000] top-0 h-full border-l-[1px] border-dashed border-[#3b82f6]"
+        className="absolute pointer-events-none z-[1000] top-0 h-full border-l-[1px] border-dashed border-secondary"
         style={{ left: 0, display: "none" }}
       />
     </>

@@ -98,7 +98,7 @@ function EmailComponent({
       {isEmail && (
         <ModalUi isOpen showHeader={false}>
           {isLoading && (
-            <div className="absolute w-full h-full flex flex-col justify-center items-center z-[20] bg-[#e6f2f2]/70">
+            <div className="absolute w-full h-full flex flex-col justify-center items-center z-[20] bg-base-200/70">
               <Loader />
               <span className="text-[12px] text-base-content">
                 {t("loader")}

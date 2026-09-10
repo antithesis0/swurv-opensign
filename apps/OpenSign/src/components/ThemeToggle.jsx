@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 
 const ThemeToggle = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
+    // SWURV: dark is the brand default (swurv.tax is dark-only), so an absent
+    // preference means dark. Only an explicit "light" choice opts out.
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === "dark") {
-      setIsDark(true);
-      document.documentElement.setAttribute("data-theme", "opensigndark");
-    } else {
-      document.documentElement.setAttribute("data-theme", "opensigncss");
-    }
+    const dark = storedTheme !== "light";
+    setIsDark(dark);
+    document.documentElement.setAttribute(
+      "data-theme",
+      dark ? "opensigndark" : "opensigncss"
+    );
   }, []);
 
   const handleChange = () => {
@@ -30,7 +32,7 @@ const ThemeToggle = () => {
       <input
         id="dark-mode-toggle"
         type="checkbox"
-        className="op-toggle checked:[--tglbg:#3368ff] transition-all checked:bg-white"
+        className="op-toggle checked:[--tglbg:#F0790C] transition-all checked:bg-white"
         checked={isDark}
         onChange={handleChange}
       />

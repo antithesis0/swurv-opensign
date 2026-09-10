@@ -1308,7 +1308,7 @@ function SignYourSelf() {
           )}
           <div className="relative op-card overflow-hidden flex flex-col md:flex-row justify-between bg-base-300">
             {isUiLoading && (
-              <div className="absolute h-full w-full z-[999] flex flex-col justify-center items-center bg-[#e6f2f2]/80">
+              <div className="absolute h-full w-full z-[999] flex flex-col justify-center items-center bg-base-200/80">
                 <Loader />
                 <span className="text-[13px]">{t("loader")}</span>
               </div>

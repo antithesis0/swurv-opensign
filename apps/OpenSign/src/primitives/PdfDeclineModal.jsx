@@ -34,7 +34,7 @@ function CustomModal(props) {
       <dialog className="op-modal op-modal-open absolute z-[448]">
         <div className="w-[95%] md:w-[60%] lg:w-[40%] op-modal-box p-0 overflow-y-auto hide-scrollbar text-sm">
           {props?.isLoader && (
-            <div className="absolute h-full w-full flex flex-col justify-center items-center z-[999] bg-[#e6f2f2]/80">
+            <div className="absolute h-full w-full flex flex-col justify-center items-center z-[999] bg-base-200/80">
               <Loader />
             </div>
           )}

@@ -76,14 +76,20 @@ function GuestLogin() {
 
   //function generate serverUrl and parseAppId from url and save it in local storage
   const handleServerUrl = async () => {
-      setAppLogo(logo);
+      // SWURV: the logo sits on bg-base-100, so it must follow the theme --
+      // white mark on dark, black mark on light. Mirrors Header.jsx.
+      setAppLogo(
+        document.documentElement.getAttribute("data-theme") === "opensigndark"
+          ? "/static/js/assets/images/logo-dark.png"
+          : logo
+      );
     const favicon = localStorage.getItem("favicon");
 
     localStorage.clear(); // Clears everything
     localStorage.setItem("favicon", favicon);
     localStorage.setItem(
       "appname",
-        "OpenSign™"
+        "Swurv Sign"
     );
     //save isGuestSigner true in local to handle login flow header in mobile view
     localStorage.setItem("isGuestSigner", true);

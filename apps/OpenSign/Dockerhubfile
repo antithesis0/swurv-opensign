@@ -22,7 +22,13 @@ RUN chmod +x entrypoint.sh
 ENV NODE_ENV=production
 ENV GENERATE_SOURCEMAP=false
 # build
-RUN npm run build
+# SWURV: `npm run build` runs `npm run version` first, which curls the GitHub API
+# for the latest release tag -- a network dependency that fails soft to an empty
+# version.txt inside a Docker build. Pin it and invoke vite directly instead.
+# Heap is capped at 3GB: this box's Docker VM is only 5.77GiB total and mostly
+# committed to other services, so upstream's 8192 would risk an OOM kill.
+RUN echo "v2.41.3" > ./public/version.txt \
+ && NODE_OPTIONS="--max-old-space-size=3072" npx vite build
 
 # Inject env.js loader into index.html
 RUN sed -i '/<head>/a\<script src="/env.js"></script>' build/index.html

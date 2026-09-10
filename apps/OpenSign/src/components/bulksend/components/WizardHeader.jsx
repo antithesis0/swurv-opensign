@@ -45,7 +45,7 @@ function WizardHeader({ steps, step, onStepClick }) {
                   className={[
                     "inline-flex h-[1.10rem] w-[1.10rem] items-center justify-center border-[1px] rounded-full",
                     !isActive
-                      ? "border-[#33bbff] text-[#33bbff]"
+                      ? "border-secondary text-secondary"
                       : "border border-base-300 text-base-300"
                   ].join(" ")}
                   aria-hidden="true"

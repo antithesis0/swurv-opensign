@@ -1,29 +1,32 @@
-/* VS Code Dark Theme Improvements for OpenSign */
+/* Dark-theme component fixes — SWURV palette.
+ * Upstream shipped VS Code greys (VS Code greys) and a blue focus
+ * ring here; both are rebranded below. Raw Tailwind colour utilities
+ * (text-gray-*, border-gray-*, bg-gray-*, blues, reds, greens) are remapped in
+ * swurv-overrides.css, which is imported after this file. */
 
-/* Better disabled button styling for dark mode */
 [data-theme="opensigndark"] {
   /* Primary button disabled state */
   .op-btn-primary:disabled {
-    background-color: #3C3C3C !important;
-    color: #CCCCCC !important;
-    border-color: #565656 !important;
+    background-color: #1F2937 !important;
+    color: #9CA3AF !important;
+    border-color: #374151 !important;
     opacity: 1 !important;
     cursor: not-allowed !important;
   }
 
   .op-btn-primary:disabled:hover {
-    background-color: #3C3C3C !important;
-    color: #CCCCCC !important;
-    border-color: #565656 !important;
+    background-color: #1F2937 !important;
+    color: #9CA3AF !important;
+    border-color: #374151 !important;
     transform: none !important;
     box-shadow: none !important;
   }
 
   /* Secondary button disabled state */
   .op-btn-secondary:disabled {
-    background-color: #2A2A2A !important;
-    color: #999999 !important;
-    border-color: #444444 !important;
+    background-color: #171E2B !important;
+    color: #718096 !important;
+    border-color: #2D3748 !important;
     opacity: 1 !important;
     cursor: not-allowed !important;
   }
@@ -31,8 +34,8 @@
   /* Ghost button disabled state */
   .op-btn-ghost:disabled {
     background-color: transparent !important;
-    color: #666666 !important;
-    border-color: #444444 !important;
+    color: #718096 !important;
+    border-color: #2D3748 !important;
     opacity: 1 !important;
     cursor: not-allowed !important;
   }
@@ -41,61 +44,48 @@
   .icon-disabled,
   .fa-light.text-gray-400,
   .fa-light.text-gray-500 {
-    color: #858585 !important;
+    color: #718096 !important;
   }
 
   .icon-visible,
   .nav-icon,
   .folder-icon {
-    color: #CCCCCC !important;
+    color: #E0E0E0 !important;
   }
 
   /* Muted/inactive icons with better visibility */
   .muted-icon,
   .inactive-icon {
-    color: #999999 !important;
+    color: #A0AEC0 !important;
   }
 
   /* Hover states for better interactivity */
-  .hover\\:bg-gray-200:hover {
-    background-color: #2A2A2A !important;
+  .hover\:bg-gray-200:hover {
+    background-color: #2A3341 !important;
   }
 
-  .hover\\:text-gray-600:hover {
-    color: #E5E7EB !important;
+  .hover\:text-gray-600:hover {
+    color: #FFFFFF !important;
   }
 
   /* Form elements in disabled state */
   .op-input:disabled,
   .op-select:disabled,
   .op-textarea:disabled {
-    background-color: #2A2A2A !important;
-    color: #999999 !important;
-    border-color: #444444 !important;
+    background-color: #171E2B !important;
+    color: #718096 !important;
+    border-color: #2D3748 !important;
     cursor: not-allowed !important;
   }
 
   /* Dropdown menu items */
   .dropdown-item {
-    color: #E5E7EB !important;
+    color: #E0E0E0 !important;
   }
 
   .dropdown-item:hover {
-    background-color: #2A2A2A !important;
+    background-color: #1F2937 !important;
     color: #FFFFFF !important;
-  }
-
-  /* Better text contrast for various elements */
-  .text-gray-600 {
-    color: #CCCCCC !important;
-  }
-
-  .text-gray-500 {
-    color: #999999 !important;
-  }
-
-  .text-gray-400 {
-    color: #858585 !important;
   }
 
   /* Status indicators with better visibility */
@@ -103,17 +93,17 @@
     box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1) !important;
   }
 
-  /* Tooltip improvements */
+  /* Tooltip — navy, matching swurv.tax --tooltip-color */
   .op-tooltip {
-    background-color: #1F2937 !important;
-    color: #E5E7EB !important;
-    border-color: #4B5563 !important;
+    background-color: #1F1E5B !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
   }
 
-  /* Card and panel borders */
+  /* Card and panel borders — swurv.tax hairline */
   .op-card,
   .border-gray-300 {
-    border-color: #2C2C2C !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
   }
 
   /* Loading states */
@@ -121,23 +111,29 @@
     opacity: 0.7 !important;
   }
 
-  /* Focus states for better accessibility */
+  /* Focus states — brand orange, was VS Code blue */
   .op-btn:focus-visible,
   .op-input:focus-visible,
   .op-select:focus-visible {
-    outline: 2px solid #007ACC !important;
+    outline: 2px solid #F0790C !important;
     outline-offset: 2px !important;
   }
 }
 
-/* Ensure these styles don't affect light mode */
 [data-theme="opensigncss"] {
-  /* Keep original colors for light mode */
   .icon-disabled {
-    color: #9CA3AF;
+    color: #A0AEC0;
   }
-  
+
   .icon-visible {
-    color: #6B7280;
+    color: #4B5563;
+  }
+
+  /* Match the dark theme's focus affordance */
+  .op-btn:focus-visible,
+  .op-input:focus-visible,
+  .op-select:focus-visible {
+    outline: 2px solid #F0790C;
+    outline-offset: 2px;
   }
 }

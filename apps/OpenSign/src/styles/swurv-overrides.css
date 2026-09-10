@@ -1,0 +1,86 @@
+/* SWURV — remap the raw Tailwind colour utilities that bypass the daisyUI theme.
+ *
+ * ~200 occurrences across src/ use literal palette utilities (text-gray-500,
+ * border-gray-300, text-blue-700, ...) instead of semantic tokens. Rather than
+ * edit 147 JSX files, they are remapped per theme here. This follows the pattern
+ * upstream already established in dark-theme-improvements.css.
+ *
+ * Specificity note: `[data-theme="..."] .text-gray-500` (attribute + class) beats
+ * Tailwind's own `.text-gray-500`, so no !important is needed.
+ *
+ * Imported last in src/index.jsx.
+ */
+
+/* ---------- Dark (default, the swurv.tax look) ---------- */
+[data-theme="opensigndark"] {
+  /* Text greys -> inverted neutral ramp, anchored on --gray-300 #E0E0E0 */
+  .text-gray-900,
+  .text-gray-800 { color: #FFFFFF; }
+  .text-gray-700,
+  .text-gray-600 { color: #E0E0E0; }
+  .text-gray-500,
+  .text-gray-300 { color: #CBD5E0; }
+  .text-gray-400 { color: #A0AEC0; }
+
+  /* Borders -> swurv.tax hairline family */
+  .border-gray-100 { border-color: rgba(255, 255, 255, 0.06); }
+  .border-gray-300 { border-color: rgba(255, 255, 255, 0.10); }
+  .border-gray-400 { border-color: rgba(255, 255, 255, 0.16); }
+  .border-gray-500 { border-color: rgba(255, 255, 255, 0.24); }
+  .ring-gray-400   { --tw-ring-color: rgba(255, 255, 255, 0.24); }
+
+  /* Surfaces -> base-200/300 elevation steps */
+  .bg-gray-50  { background-color: #171E2B; }
+  .bg-gray-100 { background-color: #1F2937; }
+  .bg-gray-200 { background-color: #2A3341; }
+  .bg-white    { background-color: #171E2B; }
+
+  /* Blues -> brand. #F29E4D is swurv.tax's link/heading colour on dark. */
+  .text-blue-500,
+  .text-blue-600,
+  .text-blue-700 { color: #F29E4D; }
+  .bg-blue-500 { background-color: #F0790C; color: #16154A; }
+
+  /* Status -> lightened for legibility on #111827 */
+  .text-red-500,
+  .text-red-600,
+  .text-red-800 { color: #F87171; }
+  .border-red-600 { border-color: #EF4444; }
+  .text-green-400,
+  .text-green-500,
+  .text-green-600 { color: #34D399; }
+}
+
+/* ---------- Light (on-brand derivative) ---------- */
+[data-theme="opensigncss"] {
+  .text-gray-900 { color: #1A202C; }
+  .text-gray-800 { color: #2D3748; } /* --text */
+  .text-gray-700 { color: #374151; }
+  .text-gray-600 { color: #4B5563; } /* --gray-600 */
+  .text-gray-500 { color: #718096; } /* --text-light */
+  .text-gray-400 { color: #A0AEC0; }
+
+  .border-gray-100 { border-color: #F0F0F3; } /* --gray-100 */
+  .border-gray-300 { border-color: #E0E0E0; } /* --gray-300 */
+  .border-gray-400 { border-color: #CBD5E0; }
+  .border-gray-500 { border-color: #A0AEC0; }
+  .ring-gray-400   { --tw-ring-color: #A0AEC0; }
+
+  .bg-gray-50  { background-color: #F9FAFB; } /* --gray-50 */
+  .bg-gray-100 { background-color: #F0F0F3; }
+  .bg-gray-200 { background-color: #E2E8F0; }
+
+  /* Navy, not orange: #F0790C on white is ~2.9:1 and fails AA for text. */
+  .text-blue-500,
+  .text-blue-600,
+  .text-blue-700 { color: #1F1E5B; }
+  .bg-blue-500 { background-color: #F0790C; color: #16154A; }
+
+  .text-red-500,
+  .text-red-600,
+  .text-red-800 { color: #DC2626; }
+  .border-red-600 { border-color: #DC2626; }
+  .text-green-400,
+  .text-green-500,
+  .text-green-600 { color: #059669; }
+}

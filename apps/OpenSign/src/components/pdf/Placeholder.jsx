@@ -421,7 +421,7 @@ function Placeholder(props) {
                     e.stopPropagation();
                     handleOnClickSettingIcon();
                   }}
-                  className="fa-light fa-gear icon text-[#188ae2] right-[29px] -top-[19px] z-[99] pointer-events-auto"
+                  className="fa-light fa-gear icon text-secondary right-[29px] -top-[19px] z-[99] pointer-events-auto"
                 ></i>
               ) : (
                 /* condition to add setting icon for placeholder & template flow for all widgets except signature and date */
@@ -442,7 +442,7 @@ function Placeholder(props) {
                       e.stopPropagation();
                       handleOnClickSettingIcon();
                     }}
-                    className="fa-light fa-gear icon text-[#188ae2] -top-[19px] z-[99] pointer-events-auto"
+                    className="fa-light fa-gear icon text-secondary -top-[19px] z-[99] pointer-events-auto"
                     style={{
                       right: props?.data?.Role === "prefill" ? "32px" : "51px"
                     }}
@@ -455,7 +455,7 @@ function Placeholder(props) {
                 props?.data?.Role !== "prefill" && (
                   <i
                     data-tut="assignSigner"
-                    className="fa-light fa-user icon text-[#188ae2] right-[32px] -top-[18px]"
+                    className="fa-light fa-user icon text-secondary right-[32px] -top-[18px]"
                     onClick={(e) => {
                       e.stopPropagation();
                       props.handleLinkUser(props.data.Id);
@@ -527,18 +527,18 @@ function Placeholder(props) {
                     ? "50px"
                     : "30px"
               }}
-              className="fa-light fa-gear icon text-[#188ae2] text-[14px] z-[99] -top-[18px] pointer-events-auto"
+              className="fa-light fa-gear icon text-secondary text-[14px] z-[99] -top-[18px] pointer-events-auto"
             ></i>
           )}
           {/* copy icon for all widgets */}
           <i
-            className="fa-light fa-copy icon text-[#188ae2] right-[12px] -top-[18px] "
+            className="fa-light fa-copy icon text-secondary right-[12px] -top-[18px] "
             onClick={(e) => handleCopyPlaceholder(e)}
             onTouchEnd={(e) => handleCopyPlaceholder(e)}
           ></i>
           {/* delete icon for all widgets */}
           <i
-            className="fa-light fa-trash-can icon text-[#188ae2] -right-[8px] -top-[18px] "
+            className="fa-light fa-trash-can icon text-secondary -right-[8px] -top-[18px] "
             onClick={(e) => {
               e.stopPropagation();
               showGuidelines(false);
@@ -803,7 +803,7 @@ function Placeholder(props) {
           bounds="parent"
           className="signYourselfBlock"
           style={{
-            border: "1.5px solid #007bff",
+            border: "1.5px solid #5E5D8A",
             borderRadius: "2px",
             cursor: getCursor(),
             zIndex:

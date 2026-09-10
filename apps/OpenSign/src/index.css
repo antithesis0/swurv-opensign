@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: white;
+/* SWURV: was `background-color: white`, which fought the dark theme. Now driven by
+   the active daisyUI theme. `html body` (not `body`) so it outranks the Bootstrap 4
+   CDN sheet in index.html regardless of stylesheet link order. */
+html body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  @apply bg-base-100 text-base-content;
 }
 
 /* Custom CSS to hide scrollbar */

@@ -311,7 +311,7 @@ const Preferences = () => {
                             className="ml-1"
                           >
                             <sup>
-                              <i className="fa-light fa-question rounded-full border-[#33bbff] text-[#33bbff] text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
+                              <i className="fa-light fa-question rounded-full border-secondary text-secondary text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
                             </sup>
                           </a>
                           <ReactTooltip
@@ -390,7 +390,7 @@ const Preferences = () => {
                           {t("notify-on-signatures")}
                           <a data-tooltip-id="nos-tooltip" className="ml-1">
                             <sup>
-                              <i className="fa-light fa-question rounded-full border-[#33bbff] text-[#33bbff] text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
+                              <i className="fa-light fa-question rounded-full border-secondary text-secondary text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
                             </sup>
                           </a>
                           <ReactTooltip id="nos-tooltip" className="z-[999]">
@@ -454,7 +454,7 @@ const Preferences = () => {
                             className="ml-1"
                           >
                             <sup>
-                              <i className="fa-light fa-question rounded-full border-[#33bbff] text-[#33bbff] text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
+                              <i className="fa-light fa-question rounded-full border-secondary text-secondary text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
                             </sup>
                           </a>
                           <ReactTooltip
@@ -535,7 +535,7 @@ const Preferences = () => {
                           className="ml-1"
                         >
                           <sup>
-                            <i className="fa-light fa-question rounded-full border-[#33bbff] text-[#33bbff] text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
+                            <i className="fa-light fa-question rounded-full border-secondary text-secondary text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
                           </sup>
                         </a>
                         <ReactTooltip
@@ -572,7 +572,7 @@ const Preferences = () => {
                             className="ml-1"
                           >
                             <sup>
-                              <i className="fa-light fa-question rounded-full border-[#33bbff] text-[#33bbff] text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
+                              <i className="fa-light fa-question rounded-full border-secondary text-secondary text-[13px] border-[1px] py-[1.5px] px-[4px]"></i>
                             </sup>
                           </a>
                           <ReactTooltip

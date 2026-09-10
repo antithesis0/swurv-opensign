@@ -422,8 +422,8 @@ function RenderPdf(props) {
     document.querySelectorAll(".signYourselfBlock").forEach((w) => {
       w.style.border =
         w.id === String(scrollTriggerId)
-          ? "1.5px solid red" // active widget in red
-          : "1.5px solid #007bff"; // others in blue
+          ? "1.5px solid #F0790C" // active widget in brand orange
+          : "1.5px solid #5E5D8A"; // others in slate
     });
   }, [
     scrollTriggerId,
@@ -1035,8 +1035,8 @@ function RenderPdf(props) {
                   top: "0px",
                   width: "0px",
                   height: "0px",
-                  border: "2px dashed #007bff",
-                  backgroundColor: "rgba(0, 123, 255, 0.1)",
+                  border: "2px dashed #5E5D8A",
+                  backgroundColor: "rgba(94, 93, 138, 0.1)",
                   pointerEvents: "none",
                   zIndex: 9999
                 }}
