@@ -6,9 +6,7 @@ import Alert from "../primitives/Alert";
 import { appInfo } from "../constant/appinfo";
 import { useDispatch } from "react-redux";
 import { fetchAppInfo } from "../redux/reducers/infoReducer";
-import {
-  emailRegex,
-} from "../constant/const";
+import { emailRegex, getThemedLogo } from "../constant/const";
 import { useTranslation } from "react-i18next";
 import Loader from "../primitives/Loader";
 
@@ -77,7 +75,7 @@ function ForgotPassword() {
     } catch (err) {
       console.log("err while logging out ", err);
     }
-      setImage(appInfo?.applogo || undefined);
+      setImage(getThemedLogo(appInfo?.applogo) || undefined);
   };
   return (
     <div>

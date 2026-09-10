@@ -16,3 +16,13 @@ export const maxTitleLength = 250; // 250 characters
 export const maxNoteLength = 200; // 200 characters
 export const maxDescriptionLength = 500; // 500 characters
 export const maxFileSize = 80; // for cloud 10MB / 80MB for self-hosted
+
+// SWURV: the app ships two logo marks -- logo-dark.png is the light-coloured mark
+// meant for dark surfaces, and appInfo.applogo is the dark mark for light ones.
+// Header.jsx already switched between them; every other logo site rendered
+// applogo unconditionally, which is invisible against the dark default theme.
+export const DARK_LOGO_PATH = "/static/js/assets/images/logo-dark.png";
+export const getThemedLogo = (lightLogo) =>
+  document.documentElement.getAttribute("data-theme") === "opensigndark"
+    ? DARK_LOGO_PATH
+    : lightLogo;

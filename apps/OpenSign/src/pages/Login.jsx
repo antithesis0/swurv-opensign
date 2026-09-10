@@ -6,9 +6,7 @@ import { NavLink, useNavigate, useLocation } from "react-router";
 import login_img from "../assets/images/login_img.svg";
 import { useWindowSize } from "../hook/useWindowSize";
 import ModalUi from "../primitives/ModalUi";
-import {
-  emailRegex,
-} from "../constant/const";
+import { emailRegex, getThemedLogo } from "../constant/const";
 import Alert from "../primitives/Alert";
 import { appInfo } from "../constant/appinfo";
 import { fetchAppInfo } from "../redux/reducers/infoReducer";
@@ -84,7 +82,7 @@ function Login() {
     if (app?.logo) {
       setImage(app?.logo);
     } else {
-      setImage(appInfo?.applogo || undefined);
+      setImage(getThemedLogo(appInfo?.applogo) || undefined);
     }
     dispatch(fetchAppInfo());
     if (localStorage.getItem("accesstoken")) {

@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
-import {
-  emailRegex,
-} from "../constant/const";
+import { emailRegex, getThemedLogo } from "../constant/const";
 import {
   contractUsers,
   saveLanguageInLocal
@@ -78,11 +76,7 @@ function GuestLogin() {
   const handleServerUrl = async () => {
       // SWURV: the logo sits on bg-base-100, so it must follow the theme --
       // white mark on dark, black mark on light. Mirrors Header.jsx.
-      setAppLogo(
-        document.documentElement.getAttribute("data-theme") === "opensigndark"
-          ? "/static/js/assets/images/logo-dark.png"
-          : logo
-      );
+      setAppLogo(getThemedLogo(logo));
     const favicon = localStorage.getItem("favicon");
 
     localStorage.clear(); // Clears everything
