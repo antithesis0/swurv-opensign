@@ -1,0 +1,33 @@
+# SWURV email theming overlay for the OpenSign backend.
+#
+# Deliberately NOT built from apps/OpenSignServer/Dockerhubfile: that one apt-installs
+# LibreOffice and runs a full npm install, producing a ~1.4 GB image over several
+# minutes. Our changes are a handful of email templates, so we layer them onto the
+# exact upstream image already running instead.
+#
+# Base is pinned by digest -- opensign/opensignserver:main is a mutable tag, and a
+# silent base change under a pinned frontend is how you get a confusing afternoon.
+# This digest is the image that was running before the email retheme (v2.41.3 era,
+# built 2026-08-21).
+#
+# Build context is the repo ROOT, matching the client's Dockerhubfile.
+FROM opensign/opensignserver@sha256:cadfcaaa20bf40272aed43c91314362c1dac034b2a4651f50e5288d01c2b434d
+
+WORKDIR /usr/src/app
+
+# Shared branded email shell + every template that composes an outbound message.
+COPY apps/OpenSignServer/swurvEmail.js                          ./swurvEmail.js
+COPY apps/OpenSignServer/Utils.js                               ./Utils.js
+COPY apps/OpenSignServer/cloud/parsefunction/createBatchDocs.js  ./cloud/parsefunction/createBatchDocs.js
+COPY apps/OpenSignServer/cloud/parsefunction/declinedocument.js  ./cloud/parsefunction/declinedocument.js
+COPY apps/OpenSignServer/cloud/parsefunction/ForwardDoc.js       ./cloud/parsefunction/ForwardDoc.js
+COPY apps/OpenSignServer/cloud/parsefunction/SendMailOTPv1.js    ./cloud/parsefunction/SendMailOTPv1.js
+COPY apps/OpenSignServer/cloud/parsefunction/pdf/PDF.js          ./cloud/parsefunction/pdf/PDF.js
+
+# NOTE: files/ is a named volume (opensign-files) in docker-compose.yml, so these are
+# masked at runtime by the volume's existing contents. They are copied in for
+# completeness; the live copies must be updated in the volume itself. See
+# opensign/README.md "Parse system email templates".
+COPY apps/OpenSignServer/files/verification_email.html    ./files/verification_email.html
+COPY apps/OpenSignServer/files/password_reset_email.html  ./files/password_reset_email.html
+COPY apps/OpenSignServer/files/custom_email.html          ./files/custom_email.html

@@ -15,6 +15,7 @@ import { saveAs } from "file-saver";
 import printModule from "print-js";
 import fontkit from "@pdf-lib/fontkit";
 import { SCALE_STEPS, themeColor } from "./const";
+import { swurvEmailShell, swurvDetailRows } from "./swurvEmail";
 import { format, toZonedTime } from "date-fns-tz";
 import i18n from "../i18n";
 import {
@@ -119,7 +120,7 @@ export function getEnv() {
 }
 const appName = "OpenSign™";
 
-export const defaultMailBody = `<p>Hi {{receiver_name}},</p><br><p>We hope this email finds you well. {{sender_name}}&nbsp;has requested you to review and sign&nbsp;{{document_title}}.</p><p>Your signature is crucial to proceed with the next steps as it signifies your agreement and authorization.</p><br><p><a href='{{signing_url}}' rel='noopener noreferrer' target='_blank'>Sign here</a></p><br><br><p>If you have any questions or need further clarification regarding the document or the signing process,  please contact the sender.</p><br><p>Thanks</p><p> Team ${appName}</p><br>`;
+export const defaultMailBody = `<p>Hi {{receiver_name}},</p><br><p>We hope this email finds you well. {{sender_name}}&nbsp;has requested you to review and sign&nbsp;{{document_title}}.</p><p>Your signature is crucial to proceed with the next steps as it signifies your agreement and authorization.</p><br><br><p>If you have any questions or need further clarification regarding the document or the signing process,  please contact the sender.</p><br><p>Thanks</p><p>The Swurv team</p><br>`;
 export const defaultMailSubject = `{{sender_name}} has requested you to sign {{document_title}}`;
 export const nonPresentMaskCss = (base) => ({
   ...base,
@@ -4221,32 +4222,24 @@ function _removeWidgetAnnotations(pdfDoc) {
 }
 
 export const mailTemplate = (param) => {
-  const appName = "OpenSign™";
-  const logo = `<div style='padding:10px'><img src='https://qikinnovation.ams3.digitaloceanspaces.com/logo.png' height='50' /></div>`;
-
   const subject = `${param.senderName} has requested you to sign "${param.title}"`;
-  const body =
-    "<html><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8' /></head><body><div style='background-color:#f5f5f5;padding:20px'><div style='background:white;padding-bottom:20px'>" +
-    logo +
-    `<div style='padding:2px;font-family:system-ui;background-color:#47a3ad'><p style='font-size:20px;font-weight:400;color:white;padding-left:20px'>Digital Signature Request</p></div><div><p style='padding:20px;font-size:14px;margin-bottom:10px'>` +
-    param.senderName +
-    " has requested you to review and sign <strong>" +
-    param.title +
-    "</strong>.</p><div style='padding: 5px 0px 5px 25px;display:flex;flex-direction:row;justify-content:space-around'><table><tr><td style='font-weight:bold;font-family:sans-serif;font-size:15px'>Sender</td><td></td><td style='color:#626363;font-weight:bold'>" +
-    param.senderMail +
-    "</td></tr><tr><td style='font-weight:bold;font-family:sans-serif;font-size:15px'>Organization</td><td></td><td style='color:#626363;font-weight:bold'> " +
-    param.organization +
-    "</td></tr><tr><td style='font-weight:bold;font-family:sans-serif;font-size:15px'>Expires on</td><td></td><td style='color:#626363;font-weight:bold'>" +
-    param.localExpireDate +
-    "</td></tr><tr><td style='font-weight:bold;font-family:sans-serif;font-size:15px'>Note</td><td></td><td style='color:#626363;font-weight:bold'>" +
-    param.note +
-    "</td></tr><tr><td></td><td></td></tr></table></div> <div style='margin-left:70px'><a target=_blank href=" +
-    param.signingUrl +
-    "><button style='padding:12px;background-color:#d46b0f;color:white;border:0px;font-weight:bold;margin-top:30px'>Sign here</button></a></div><div style='display:flex;justify-content:center;margin-top:10px'></div></div></div><div><p> This is an automated email from " +
-    appName +
-    ". For any queries regarding this email, please contact the sender " +
-    param.senderMail +
-    " directly.</p></div></div></body></html> ";
+  const body = swurvEmailShell({
+    title: "Signature request",
+    bodyHtml:
+      `<p style="margin:0">${param.senderName} has requested you to review and sign ` +
+      `<strong style="color:#1F1E5B">${param.title}</strong>.</p>` +
+      swurvDetailRows([
+        { label: "Sender", value: param.senderMail },
+        { label: "Organization", value: param.organization },
+        { label: "Expires on", value: param.localExpireDate },
+        { label: "Note", value: param.note }
+      ]),
+    cta: { text: "Review & sign", url: param.signingUrl },
+    footerHtml:
+      `This is an automated email from Swurv Sign. For any questions about this request, ` +
+      `please contact ${param.senderMail} directly.`
+  });
+
   return { subject, body };
 };
 

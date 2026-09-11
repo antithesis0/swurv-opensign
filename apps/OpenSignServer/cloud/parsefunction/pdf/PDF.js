@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { swurvEmailShell } from '../../../swurvEmail.js';
 import { createHash } from 'node:crypto';
 import axios from 'axios';
 import { PDFDocument } from 'pdf-lib';
@@ -149,8 +150,6 @@ async function updateDoc(
 async function sendNotifyMail(doc, signUser, mailProvider, publicUrl) {
   try {
     const TenantAppName = appName;
-    const logo =
-      "<img src='https://qikinnovation.ams3.digitaloceanspaces.com/logo.png' height='50' style='padding:20px'/>";
 
     const auditTrailCount =
       doc?.AuditTrail?.filter(x => COMPLETION_ACTIVITIES.includes(x.Activity))?.length || 0;
@@ -167,12 +166,17 @@ async function sendNotifyMail(doc, signUser, mailProvider, publicUrl) {
       const signerEmail = signUser.Email;
       const viewDocUrl = `${publicUrl}/recipientSignPdf/${doc.objectId}`;
       const subject = `Document "${pdfName}" has been signed by ${signerName}`;
-      const body =
-        "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/></head><body><div style='background-color:#f5f5f5;padding:20px'><div style='background-color:white'>" +
-        `<div>${logo}</div><div style='padding:2px;font-family:system-ui;background-color:#47a3ad'><p style='font-size:20px;font-weight:400;color:white;padding-left:20px'>Document signed by ${signerName}</p>` +
-        `</div><div style='padding:20px;font-family:system-ui;font-size:14px'><p>Dear ${creatorName},</p><p>${pdfName} has been signed by ${signerName} "${signerEmail}" successfully</p>` +
-        `<p><a href=${viewDocUrl} target=_blank>View Document</a></p></div></div><div><p>This is an automated email from ${TenantAppName}. For any queries regarding this email, ` +
-        `please contact the sender ${creatorEmail} directly.</p></div></div></body></html>`;
+      const body = swurvEmailShell({
+        title: `Signed by ${signerName}`,
+        bodyHtml:
+          `<p style="margin:0 0 10px 0">Dear ${creatorName},</p>` +
+          `<p style="margin:0"><strong style="color:#1F1E5B">${pdfName}</strong> has been signed by ` +
+          `${signerName} ("${signerEmail}").</p>`,
+        cta: { text: 'View document', url: viewDocUrl },
+        footerHtml:
+          `This is an automated email from ${TenantAppName}. For any questions about this email, ` +
+          `please contact ${creatorEmail} directly.`,
+      });
 
       const params = {
         extUserId: sender.objectId,
@@ -197,8 +201,6 @@ async function sendCompletedMail(obj) {
   const sender = obj.doc.ExtUserPtr;
   const pdfName = doc.Name;
   const TenantAppName = appName;
-  const logo =
-    "<img src='https://qikinnovation.ams3.digitaloceanspaces.com/logo.png' height='50' style='padding:20px'/>";
 
   let signersMail;
   if (doc?.Signers?.length > 0) {
@@ -211,11 +213,15 @@ async function sendCompletedMail(obj) {
   }
   const recipient = signersMail;
   let subject = `Document "${pdfName}" has been signed by all parties`;
-  let body =
-    "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /></head><body><div style='background-color:#f5f5f5;padding:20px'><div style='background-color:white'>" +
-    `<div>${logo}</div><div style='padding:2px;font-family:system-ui;background-color:#47a3ad'><p style='font-size:20px;font-weight:400;color:white;padding-left:20px'>Document signed successfully</p></div><div>` +
-    `<p style='padding:20px;font-family:system-ui;font-size:14px'>All parties have successfully signed the document <b>"${pdfName}"</b>. Kindly download the document from the attachment.</p>` +
-    `</div></div><div><p>This is an automated email from ${TenantAppName}. For any queries regarding this email, please contact the sender ${sender.Email} directly.</p></div></div></body></html>`;
+  let body = swurvEmailShell({
+    title: 'Signed by all parties',
+    bodyHtml:
+      `<p style="margin:0">All parties have signed <strong style="color:#1F1E5B">${pdfName}</strong>. ` +
+      `The completed document is attached to this email.</p>`,
+    footerHtml:
+      `This is an automated email from ${TenantAppName}. For any questions about this email, ` +
+      `please contact ${sender.Email} directly.`,
+  });
 
   if (obj?.isCustomMail) {
     const tenant = sender?.TenantId;

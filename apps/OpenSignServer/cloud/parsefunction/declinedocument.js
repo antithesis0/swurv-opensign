@@ -1,11 +1,10 @@
 import { appName } from '../../Utils.js';
+import { swurvEmailShell, swurvDetailRows } from '../../swurvEmail.js';
 import sendSystemMail from './sendSystemMail.js';
 
 async function sendDeclineMail(doc, publicUrl, userId, reason) {
   try {
     const TenantAppName = appName;
-    const logo =
-      "<img src='https://qikinnovation.ams3.digitaloceanspaces.com/logo.png' height='50' style='padding:20px'/>";
 
     const removePrefill =
       doc?.Placeholders?.length > 0 && doc?.Placeholders?.filter(x => x?.Role !== 'prefill');
@@ -21,14 +20,18 @@ async function sendDeclineMail(doc, publicUrl, userId, reason) {
     const signerEmail = signUser?.signerPtr?.Email || signUser?.email || '';
     const viewDocUrl = `${publicUrl}/recipientSignPdf/${doc.objectId}`;
     const subject = `Document "${pdfName}" has been declined by ${signerName}`;
-    const body =
-      "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/></head><body><div style='background-color:#f5f5f5;padding:20px'><div style='background-color:white'>" +
-      `<div>${logo}</div><div style='padding:2px;font-family:system-ui;background-color:#47a3ad'><p style='font-size:20px;font-weight:400;color:white;padding-left:20px'>Document declined by ${signerName}</p>` +
-      `</div><div style='padding:20px;font-family:system-ui;font-size:14px'><p>Dear ${creatorName},</p>` +
-      `<p>${pdfName} has been declined by ${signerName} "${signerEmail}" on ${new Date().toLocaleDateString()}.</p>` +
-      `<p>Decline Reason: ${reason || 'Not specified'}</p>` +
-      `<p><a href=${viewDocUrl} target=_blank>View Document</a></p></div></div><div><p>This is an automated email from ${TenantAppName}. For any queries regarding this email, ` +
-      `please contact the sender ${creatorEmail} directly.</p></div></div></body></html>`;
+    const body = swurvEmailShell({
+      title: `Declined by ${signerName}`,
+      bodyHtml:
+        `<p style="margin:0 0 10px 0">Dear ${creatorName},</p>` +
+        `<p style="margin:0"><strong style="color:#1F1E5B">${pdfName}</strong> has been declined by ` +
+        `${signerName} ("${signerEmail}") on ${new Date().toLocaleDateString()}.</p>` +
+        swurvDetailRows([{ label: 'Reason', value: reason || 'Not specified' }]),
+      cta: { text: 'View document', url: viewDocUrl },
+      footerHtml:
+        `This is an automated email from ${TenantAppName}. For any questions about this email, ` +
+        `please contact ${creatorEmail} directly.`,
+    });
 
     const params = {
       extUserId: sender.objectId,

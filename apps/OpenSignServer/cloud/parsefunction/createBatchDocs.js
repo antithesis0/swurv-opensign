@@ -2,6 +2,7 @@ import axios from 'axios';
 import { cloudServerUrl, mailTemplate, replaceMailVaribles, serverAppId } from '../../Utils.js';
 import { setDocumentCount } from '../../utils/CountUtils.js';
 
+import { swurvEmailShell } from '../../swurvEmail.js';
 import crypto from 'crypto';
 import sendSystemMail from './sendSystemMail.js';
 
@@ -152,10 +153,18 @@ async function sendMail(document, publicUrl) {
       let replaceVar;
       if (mailBody && mailSubject) {
         const replacedRequestBody = mailBody.replace(/"/g, "'");
-        const htmlReqBody =
-          "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /></head><body>" +
-          replacedRequestBody +
-          '</body></html>';
+        // A customised RequestBody used to go out as bare <html><body> with no chrome.
+        // Wrap it in the Swurv shell so a customised mail still looks like the default.
+        // Only add the CTA when the body does not already carry its own signing link,
+        // otherwise the recipient gets two. {{signing_url}} is substituted below by
+        // replaceMailVaribles, which runs over the whole document.
+        const htmlReqBody = swurvEmailShell({
+          title: 'Signature request',
+          bodyHtml: replacedRequestBody,
+          cta: replacedRequestBody.includes('{{signing_url}}')
+            ? undefined
+            : { text: 'Review & sign', url: '{{signing_url}}' },
+        });
         const variables = {
           document_title: document?.Name,
           note: document?.Note || '',
