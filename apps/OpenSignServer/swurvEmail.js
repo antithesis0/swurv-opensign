@@ -27,9 +27,11 @@ const LINE = '#E0E0E0';
 const PAGE = '#F9FAFB';
 const FONT = "'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
 
-// 14.8 KB black wordmark. Do NOT swap this for swurv-logo-white.png: the copy served
-// from swurv.tax is 1.34 MB, which is far too heavy for email.
-const LOGO = 'https://swurv.tax/images/swurv-logo-black.png';
+// Self-hosted, NOT hotlinked from swurv.tax. That site's /images/ copies are stale
+// (it still serves an old black mark and a 1.34 MB legacy white one), and updating
+// them needs a separate website deploy. Serving from this deployment means the email
+// logo ships with the same build as everything else.
+const LOGO = (process.env.PUBLIC_URL || 'https://sign.swurv.tax').replace(/\/$/, '') + '/email-logo.png';
 
 const esc = v =>
   String(v ?? '')

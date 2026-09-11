@@ -30,9 +30,12 @@ const LINE = '#E0E0E0';
 const PAGE = '#F9FAFB';
 const FONT = "'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
 
-// 14.8 KB black wordmark. Do NOT swap this for swurv-logo-white.png: the copy served
-// from swurv.tax is 1.34 MB, which is far too heavy for email.
-const LOGO = 'https://swurv.tax/images/swurv-logo-black.png';
+// Self-hosted, NOT hotlinked from swurv.tax -- that site's /images/ copies are stale.
+// Served out of this app's public/ by the same container that renders the UI.
+const LOGO =
+  (typeof window !== 'undefined' && window.location?.origin
+    ? window.location.origin
+    : 'https://sign.swurv.tax') + '/email-logo.png';
 
 const esc = v =>
   String(v ?? '')
