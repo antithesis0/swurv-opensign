@@ -13,12 +13,13 @@ generated documents, certificates and email templates.
 
 ## What was changed
 
-All changes are confined to `apps/OpenSign/` (the React frontend). The backend
-(`apps/OpenSignServer/`) is unmodified and still runs from the upstream image.
+Changes span `apps/OpenSign/` (React frontend) and, since the email retheme,
+`apps/OpenSignServer/` — but the server changes are **email templates only**.
 
 The change is a **visual retheme only** — palette, typography, radius language,
-logo, favicon and page title, matching the Swurv brand (swurv.tax). No signing,
-cryptographic, authentication or document-handling behaviour was altered.
+logo, favicon, page title and outbound email templates, matching the Swurv brand
+(swurv.tax). No signing, cryptographic, authentication or document-handling
+behaviour was altered.
 
 | Area | Files | Change |
 |---|---|---|
@@ -32,10 +33,53 @@ cryptographic, authentication or document-handling behaviour was altered.
 | Signer page | `src/pages/GuestLogin.jsx` | Logo now follows the active theme (upstream used one file unconditionally, invisible against the dark default). |
 | Build | `apps/OpenSign/Dockerhubfile`, `.dockerignore` | `npm run version` (a GitHub API call that fails soft inside a Docker build) replaced with a pinned `version.txt` and a direct `vite build`. Node heap capped at 3 GB to suit the host. |
 
+## Email templates (added later)
+
+Every outbound message was OpenSign-branded: `#f5f5f5` page, white card, OpenSign's
+logo, a teal `#47a3ad` band. All of them now share one `swurvEmailShell()`.
+
+| Template | File |
+|---|---|
+| Signature request | `apps/OpenSignServer/Utils.js` → `mailTemplate` |
+| Signature request (resend/remind) | `apps/OpenSign/src/constant/Utils.js` → `mailTemplate` |
+| Customised request body wrapper | `apps/OpenSignServer/cloud/parsefunction/createBatchDocs.js` |
+| Signed-by-one / signed-by-all | `apps/OpenSignServer/cloud/parsefunction/pdf/PDF.js` |
+| Declined | `.../declinedocument.js` |
+| Forwarded copy | `.../ForwardDoc.js` |
+| Signer OTP | `.../SendMailOTPv1.js` |
+| Parse verification / password reset / custom | `apps/OpenSignServer/files/*.html` |
+
+**Light, not dark, on purpose.** swurv.tax is dark-only, but HTML email is where dark
+backgrounds misbehave — Outlook ignores much of it and Gmail/Apple dark-mode inversion
+produces a broken-looking hybrid. The shell uses the brand's light tokens (navy band,
+orange CTA on white), the same language as the `opensigncss` theme.
+
+**Two upstream bugs fixed in passing:**
+
+- the CTA was `<button>` inside `<a>`. Outlook drops it, so some recipients saw no
+  button at all. Now a bulletproof table button.
+- the signature request laid out its detail table with `display:flex`, dead in Outlook.
+- (also: upstream's password-reset template labelled its button "Verify email".)
+
+**`appName` on the server** is now `Swurv Sign`. It feeds only the mail sender display
+name, these templates and the frontend's appname lookup. The PDF page stamp and
+certificate filename read from the **frontend** `Utils.js`, which deliberately still
+says `OpenSign™` — attribution belongs on the signed artefact, not on our covering
+email.
+
+**Two copies of the shell.** `apps/OpenSignServer/swurvEmail.js` and
+`apps/OpenSign/src/constant/swurvEmail.js` are separate bundles and cannot share a
+module. Keep them in sync by hand.
+
+**`files/` is a named volume** (`opensign-files`) in the deployment's compose file, so
+the three Parse templates baked into the image are masked at runtime. Changing them
+requires writing into the volume as well as rebuilding.
+
 ### Deliberately left unchanged
 
-Email templates, the PDF document-id stamp, completion-certificate filenames, the
-`opensignlabs.com` contact details shown to signers, and in-app plan/upsell strings.
+The PDF document-id stamp, completion-certificate filenames, the `opensignlabs.com`
+contact details shown to signers, and in-app plan/upsell strings. (Email templates
+were on this list until the email retheme above.)
 
 ## Upstream contrast deviation
 
