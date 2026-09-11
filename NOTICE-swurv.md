@@ -8,8 +8,12 @@ Branch `swurv-theme` is based on upstream tag **v2.41.3** and is deployed at
 published here for anyone interacting with that instance over a network.
 
 Upstream copyright and licence notices are retained unchanged. "OpenSign" and
-"OpenSign™" are marks of OpenSign Labs; this fork retains their attribution in
-generated documents, certificates and email templates.
+"OpenSign™" are marks of OpenSign Labs. As of the 2026-09-11 sweep (below), this
+fork retains that attribution in exactly two places — the PDF document-id stamp
+and the completion-certificate filename — and nowhere else. AGPL-3 does not
+require keeping a licensor's mark visible in a modified copy's UI; it requires
+offering Corresponding Source (satisfied by this repository being public) and
+preserving copyright notices in the code, which this fork does.
 
 ## What was changed
 
@@ -77,9 +81,32 @@ requires writing into the volume as well as rebuilding.
 
 ### Deliberately left unchanged
 
-The PDF document-id stamp, completion-certificate filenames, the `opensignlabs.com`
-contact details shown to signers, and in-app plan/upsell strings. (Email templates
-were on this list until the email retheme above.)
+The PDF document-id stamp and completion-certificate filenames — attribution on the
+signed artefact itself, kept on purpose (see top of this file). In-app plan/upsell
+strings (unrelated to branding — pricing-tier copy, not touched).
+
+The `opensignlabs.com` contact details shown to signers were also on this list until
+2026-09-11 — see below, that was reversed on explicit instruction.
+
+## Full branding sweep (2026-09-11)
+
+Everything that still said "OpenSign" outside the two exceptions above. Not a bug fix —
+the `opensignlabs.com` contact details had been a deliberate keep (previous paragraph)
+until this instruction reversed it.
+
+| Area | Files | Change |
+|---|---|---|
+| `appName` constants | 24 files across `pages/`, `components/`, `reports/`, `primitives/`, `constant/Utils.js`, plus the email-builder sample templates | Each component redeclares its own local `const appName = "OpenSign™"` (not a shared constant) — all switched to `"Swurv Sign"`. Left alone: `constant/Utils.js`'s `embedDocId` (PDF stamp) and `downloadCertificate` (certificate filename). |
+| "Drive" naming | `Menu.jsx`, `SubMenu.jsx`, `RenderReportCell.jsx`, `SelectFolder.jsx`, `FolderModal.jsx`, `Opensigndrive.jsx` | `drivename = appName === "OpenSign™" ? "OpenSign™" : ""` collapsed to empty once `appName` changed — the "X Drive" menu item would have silently lost its name. Changed to `drivename = appName` so it reads "Swurv Sign Drive". |
+| Terms & Conditions | `components/pdf/AgreementContent.jsx`, `public/locales/en/translation.json` (`term-cond-p29`/`p30`) | Removed the hardcoded `www.opensignlabs.com` link and `support@opensignlabs.com` line from the signer-facing consent modal — that's OpenSignLabs' own support channel, not applicable here. Now just "contact the Sender directly," consistent with the request-email template. |
+| **Spam-report footer (email)** | `apps/OpenSignServer/cloud/parsefunction/{sendMailv3,sendMailWithAttachment,sendSystemMail}.js`, `Dockerfile.swurv` | Every one of these unconditionally appended `<p>...file a complaint with OpenSign™ <a href="mailto:complaints@opensignlabs.com?...">here</a></p>` to the HTML of **every outbound email**, including the rebranded request-email — misdirecting any signer's spam complaint about our mail to a third party with no relationship to our clients. Not caught by the earlier email retheme (that touched templates, not this cross-cutting footer). Emptied in all three; added to `Dockerfile.swurv`'s COPY list since the overlay is an explicit allowlist. |
+| Post-signing popup contrast | `pages/DocSuccessPage.jsx` | Hardcoded `bg-white`/`text-gray-{800,600,500}` never got the dark-theme treatment the rest of the app got — switched to `bg-base-100`/`text-base-content`(`/70`, `/60`). |
+| Save-and-reuse signature | org-level `SignatureType` (API, not code) | `default` re-enabled alongside `draw` (`typed`/`upload` stay off). Traced `saveToMySign`/`handleSaveToMySign` in `WidgetsValueModal.jsx` first — `default` gates the "My signature" reuse tab, which only ever holds whatever image came off the **draw** canvas (upload is off), so this is safe under the draw-only policy, not a loophole. |
+| OpenSignLabs self-promotion | `components/SocialMedia.jsx` (deleted), `Sidebar.jsx`, `Footer.jsx`, `layout/HomeLayout.jsx` | Removed: sidebar social-media links to OpenSignLabs' own GitHub/LinkedIn/Twitter/Discord; the footer's version string linking to `github.com/OpenSignLabs/OpenSign/releases/tag/<ver>` (would 404 — that tag doesn't exist for our fork's version string); an onboarding-tour "⭐ Star us on GitHub" CTA pointed at the upstream repo. |
+| Misc error copy | `constant/Utils.js` | "This pdf is not compatible with opensign please contact support@opensignlabs.com" → "This PDF isn't compatible — please contact the sender." |
+| Sidebar accessibility | `Sidebar.jsx` | `aria-label="OpenSign Sidebar Navigation"` → `"Swurv Sign Sidebar Navigation"`. |
+
+**Left out of scope:** the 6 non-English locale files (`public/locales/{kr,de,it,hi,es,fr}`) carry the same `OpenSign™`-branded strings — not fixed, lower value since this practice serves English-speaking clients only.
 
 ## Upstream contrast deviation
 

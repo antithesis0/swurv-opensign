@@ -22,7 +22,7 @@ import SelectLanguage from "../components/pdf/SelectLanguage";
 
 function Login() {
   const appName =
-    "OpenSign™";
+    "Swurv Sign";
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();

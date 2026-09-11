@@ -30,8 +30,8 @@ const AppLoader = () => {
 };
 function Opensigndrive() {
   const appName =
-    "OpenSign™";
-  const drivename = appName === "OpenSign™" ? "OpenSign™" : "";
+    "Swurv Sign";
+  const drivename = appName;
   const { t } = useTranslation();
   const navigate = useNavigate();
   const scrollRef = useRef(null);

@@ -24,6 +24,15 @@ COPY apps/OpenSignServer/cloud/parsefunction/ForwardDoc.js       ./cloud/parsefu
 COPY apps/OpenSignServer/cloud/parsefunction/SendMailOTPv1.js    ./cloud/parsefunction/SendMailOTPv1.js
 COPY apps/OpenSignServer/cloud/parsefunction/pdf/PDF.js          ./cloud/parsefunction/pdf/PDF.js
 
+# Every email-sending function had a hardcoded "report spam to OpenSignLabs"
+# footer appended to the outbound HTML, unconditionally -- misdirecting any
+# client complaint about our emails to a third party with no relationship to
+# our clients. Not gated by the appName/branding work above at all; found and
+# emptied separately. These three need to be copied in for that to take effect.
+COPY apps/OpenSignServer/cloud/parsefunction/sendMailv3.js             ./cloud/parsefunction/sendMailv3.js
+COPY apps/OpenSignServer/cloud/parsefunction/sendMailWithAttachment.js ./cloud/parsefunction/sendMailWithAttachment.js
+COPY apps/OpenSignServer/cloud/parsefunction/sendSystemMail.js         ./cloud/parsefunction/sendSystemMail.js
+
 # NOTE: files/ is a named volume (opensign-files) in docker-compose.yml, so these are
 # masked at runtime by the volume's existing contents. They are copied in for
 # completeness; the live copies must be updated in the volume itself. See
