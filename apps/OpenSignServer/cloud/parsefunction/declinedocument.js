@@ -30,7 +30,7 @@ async function sendDeclineMail(doc, publicUrl, userId, reason) {
       cta: { text: 'View document', url: viewDocUrl },
       footerHtml:
         `This is an automated email from ${TenantAppName}. For any questions about this email, ` +
-        `please contact ${creatorEmail} directly.`,
+        `please contact hello@swurv.tax directly.`,
     });
 
     const params = {

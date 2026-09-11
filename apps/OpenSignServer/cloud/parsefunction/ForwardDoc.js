@@ -30,7 +30,7 @@ export default async function forwardDoc(request) {
       const extUserId = _docRes?.ExtUserPtr?.objectId;
       const TenantAppName = appName;
       const from = _docRes?.SenderName || _docRes?.ExtUserPtr?.Email;
-      const replyTo = _docRes?.SenderMail || _docRes?.ExtUserPtr?.Email;
+      const replyTo = 'hello@swurv.tax';
       const senderName = _docRes?.SenderName || _docRes?.ExtUserPtr?.Name;
 
       try {
@@ -50,7 +50,7 @@ export default async function forwardDoc(request) {
                 `<p style="margin:0">A copy of <strong style="color:#1F1E5B">${docName}</strong> is attached to this email.</p>`,
               footerHtml:
                 `This is an automated email from ${TenantAppName}. For any questions about this email, ` +
-                `please contact ${replyTo} directly.`,
+                `please contact hello@swurv.tax directly.`,
             }),
           };
           mailRes = await sendMailWithAttachment(params);

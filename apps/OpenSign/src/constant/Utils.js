@@ -4229,7 +4229,7 @@ export const mailTemplate = (param) => {
       `<p style="margin:0">${param.senderName} has requested you to review and sign ` +
       `<strong style="color:#1F1E5B">${param.title}</strong>.</p>` +
       swurvDetailRows([
-        { label: "Sender", value: param.senderMail },
+        { label: "Sender", value: "hello@swurv.tax" },
         { label: "Organization", value: param.organization },
         { label: "Expires on", value: param.localExpireDate },
         { label: "Note", value: param.note }
@@ -4237,7 +4237,7 @@ export const mailTemplate = (param) => {
     cta: { text: "Review & sign", url: param.signingUrl },
     footerHtml:
       `This is an automated email from Swurv Sign. For any questions about this request, ` +
-      `please contact ${param.senderMail} directly.`
+      `please contact hello@swurv.tax directly.`
   });
 
   return { subject, body };

@@ -175,7 +175,7 @@ async function sendNotifyMail(doc, signUser, mailProvider, publicUrl) {
         cta: { text: 'View document', url: viewDocUrl },
         footerHtml:
           `This is an automated email from ${TenantAppName}. For any questions about this email, ` +
-          `please contact ${creatorEmail} directly.`,
+          `please contact hello@swurv.tax directly.`,
       });
 
       const params = {
@@ -220,7 +220,7 @@ async function sendCompletedMail(obj) {
       `The completed document is attached to this email.</p>`,
     footerHtml:
       `This is an automated email from ${TenantAppName}. For any questions about this email, ` +
-      `please contact ${sender.Email} directly.`,
+      `please contact hello@swurv.tax directly.`,
   });
 
   if (obj?.isCustomMail) {
