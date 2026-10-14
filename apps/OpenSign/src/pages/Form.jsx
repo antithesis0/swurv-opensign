@@ -557,7 +557,7 @@ const Forms = (props) => {
         setIsSubmit(false);
       }
     } else {
-      alert(t("file-type-not-supported"));
+      alert(t("file-alert-3"));
     }
   });
 
