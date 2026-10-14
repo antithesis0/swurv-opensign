@@ -85,7 +85,8 @@ export default async function getReport(request) {
         'X-Parse-Master-Key': masterKey,
       };
 
-      const orderBy = '-updatedAt';
+      // SWURV: the contact book lists alphabetically; documents stay newest first.
+      const orderBy = clsName === 'contracts_Contactbook' ? 'Name' : '-updatedAt';
       const include = 'AuditTrail.UserPtr,Placeholders.signerPtr,ExtUserPtr.TenantId';
 
       const url = buildClassesUrl({

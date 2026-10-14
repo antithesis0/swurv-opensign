@@ -40,3 +40,8 @@ COPY apps/OpenSignServer/cloud/parsefunction/sendSystemMail.js         ./cloud/p
 COPY apps/OpenSignServer/files/verification_email.html    ./files/verification_email.html
 COPY apps/OpenSignServer/files/password_reset_email.html  ./files/password_reset_email.html
 COPY apps/OpenSignServer/files/custom_email.html          ./files/custom_email.html
+
+# Contacts in alphabetical order: the signer picker (getSigners) and the
+# Contactbook page (getReport) both returned newest-updated first.
+COPY apps/OpenSignServer/cloud/parsefunction/getSigners.js ./cloud/parsefunction/getSigners.js
+COPY apps/OpenSignServer/cloud/parsefunction/getReport.js  ./cloud/parsefunction/getReport.js

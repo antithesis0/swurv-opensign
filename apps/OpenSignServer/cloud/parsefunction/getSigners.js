@@ -22,6 +22,10 @@ async function getContacts(searchObj, isJWT) {
     const findOpt = isJWT ? { useMasterKey: true } : { sessionToken: searchObj.sessionToken };
     const contactRes = await mainQuery.find(findOpt);
     const _contactRes = JSON.parse(JSON.stringify(contactRes));
+    // SWURV: alphabetical by name (case-insensitive) in the signer picker.
+    _contactRes.sort((a, b) =>
+      (a.Name || '').localeCompare(b.Name || '', undefined, { sensitivity: 'base' })
+    );
     return _contactRes;
   } catch (err) {
     console.log('err while fetch contacts', err);
