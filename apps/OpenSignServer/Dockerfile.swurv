@@ -45,3 +45,8 @@ COPY apps/OpenSignServer/files/custom_email.html          ./files/custom_email.h
 # Contactbook page (getReport) both returned newest-updated first.
 COPY apps/OpenSignServer/cloud/parsefunction/getSigners.js ./cloud/parsefunction/getSigners.js
 COPY apps/OpenSignServer/cloud/parsefunction/getReport.js  ./cloud/parsefunction/getReport.js
+
+# Archive BCC + swurv_MailLog send history (swurvMailLog.js). index.js carries the
+# system-mail logging hook; the three send functions above carry the BCC + log.
+COPY apps/OpenSignServer/swurvMailLog.js ./swurvMailLog.js
+COPY apps/OpenSignServer/index.js        ./index.js

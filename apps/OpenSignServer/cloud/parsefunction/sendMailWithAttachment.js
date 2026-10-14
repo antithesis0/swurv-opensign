@@ -1,3 +1,4 @@
+import { withArchiveBcc, logMail } from '../../swurvMailLog.js';
 import fs from 'node:fs';
 import https from 'https';
 import formData from 'form-data';
@@ -134,7 +135,7 @@ async function sendMailProvider(params) {
           const from = params.from || '';
           const mailsender = smtpenable ? process.env.SMTP_USER_EMAIL : process.env.MAILGUN_SENDER;
           const replyto = params?.replyto || '';
-          const messageParams = {
+          const messageParams = withArchiveBcc({
             from: from + ' <' + mailsender + '>',
             to: params.recipient,
             subject: params.subject,
@@ -145,13 +146,14 @@ async function sendMailProvider(params) {
             bcc: params.bcc ? params.bcc : undefined,
             cc: params.cc ? params.cc : undefined,
             replyTo: replyto ? replyto : undefined,
-          };
+          });
           const cleanupPaths = [
             { path: certificatePath, label: 'certificate' },
             { path: testPdf, label: 'pdf' },
           ];
           if (transporterSMTP) {
             const res = await transporterSMTP.sendMail(messageParams);
+            await logMail({ source: 'sendMailWithAttachment', messageParams, result: res, docId: params?.docId });
             console.log('smtp transporter res: ', res?.response);
             if (!res.err) {
               if (extUserId) {
@@ -164,6 +166,7 @@ async function sendMailProvider(params) {
           } else {
             if (mailgunApiKey) {
               const res = await mailgunClient.messages.create(mailgunDomain, messageParams);
+            await logMail({ source: 'sendMailWithAttachment', messageParams, result: res, docId: params?.docId });
               console.log('mailgun res: ', res?.status);
               if (res.status === 200) {
                 if (extUserId) {
@@ -187,7 +190,7 @@ async function sendMailProvider(params) {
       const from = params.from || '';
       const mailsender = smtpenable ? process.env.SMTP_USER_EMAIL : process.env.MAILGUN_SENDER;
       const replyto = params?.replyto || '';
-      const messageParams = {
+      const messageParams = withArchiveBcc({
         from: from + ' <' + mailsender + '>',
         to: params.recipient,
         subject: params.subject,
@@ -196,10 +199,11 @@ async function sendMailProvider(params) {
         bcc: params.bcc ? params.bcc : undefined,
         cc: params.cc ? params.cc : undefined,
         replyTo: replyto ? replyto : undefined,
-      };
+      });
 
       if (transporterSMTP) {
         const res = await transporterSMTP.sendMail(messageParams);
+            await logMail({ source: 'sendMailWithAttachment', messageParams, result: res, docId: params?.docId });
         console.log('smtp transporter res: ', res?.response);
         if (!res.err) {
           if (extUserId) {
@@ -210,6 +214,7 @@ async function sendMailProvider(params) {
       } else {
         if (mailgunApiKey) {
           const res = await mailgunClient.messages.create(mailgunDomain, messageParams);
+            await logMail({ source: 'sendMailWithAttachment', messageParams, result: res, docId: params?.docId });
           console.log('mailgun res: ', res?.status);
           if (res.status === 200) {
             if (extUserId) {
@@ -224,6 +229,7 @@ async function sendMailProvider(params) {
     }
   } catch (err) {
     console.log(`sendMailWithAttachment Error: ${err}`);
+    await logMail({ source: 'sendMailWithAttachment', messageParams: { to: params?.recipient, subject: params?.subject }, error: err, docId: params?.docId });
     if (err) {
       return { status: 'error' };
     }

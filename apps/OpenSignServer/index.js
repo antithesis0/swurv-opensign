@@ -14,6 +14,7 @@ import FSFilesAdapter from '@parse/fs-files-adapter';
 import { app as customRoute } from './cloud/customRoute/customApp.js';
 import { exec } from 'child_process';
 import { createTransport } from 'nodemailer';
+import { logMail } from './swurvMailLog.js';
 import { appName, cloudServerUrl, serverAppId, smtpenable, smtpsecure, useLocal } from './Utils.js';
 import { SSOAuth } from './auth/authadapter.js';
 import runDbMigrations from './migrationdb/index.js';
@@ -147,11 +148,21 @@ export const config = {
                 htmlPath: './files/verification_email.html',
               },
             },
+            // SWURV: system mail (OTP, reset, verification) is logged without its
+            // body and is not BCC'd to the archive -- see swurvMailLog.js.
             apiCallback: async ({ payload, locale }) => {
-              if (mailgunClient) {
-                const mailgunPayload = ApiPayloadConverter.mailgun(payload);
-                await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
-              } else if (transporterMail) await transporterMail.sendMail(payload);
+              const meta = { to: payload?.to, subject: payload?.subject, from: payload?.from };
+              try {
+                let res;
+                if (mailgunClient) {
+                  const mailgunPayload = ApiPayloadConverter.mailgun(payload);
+                  res = await mailgunClient.messages.create(mailgunDomain, mailgunPayload);
+                } else if (transporterMail) res = await transporterMail.sendMail(payload);
+                await logMail({ source: 'system', messageParams: meta, result: res, archived: false });
+              } catch (err) {
+                await logMail({ source: 'system', messageParams: meta, error: err, archived: false });
+                throw err;
+              }
             },
           },
         },

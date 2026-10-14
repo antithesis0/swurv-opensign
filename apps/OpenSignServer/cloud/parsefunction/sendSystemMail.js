@@ -1,3 +1,4 @@
+import { withArchiveBcc, logMail } from '../../swurvMailLog.js';
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import { appName, smtpenable, smtpsecure, updateMailCount } from '../../Utils.js';
@@ -41,7 +42,7 @@ async function sendMailProvider(req) {
     const from = req.params.from || '';
     const mailsender = smtpenable ? process.env.SMTP_USER_EMAIL : process.env.MAILGUN_SENDER;
     const replyto = req.params?.replyto || '';
-    const messageParams = {
+    const messageParams = withArchiveBcc({
       from: from + ' <' + mailsender + '>',
       to: req.params.recipient,
       subject: req.params.subject,
@@ -49,10 +50,11 @@ async function sendMailProvider(req) {
       html: req.params?.html ? req.params.html + reportMsg : '',
       bcc: req.params.bcc ? req.params.bcc : undefined,
       replyTo: replyto ? replyto : undefined,
-    };
+    });
 
     if (transporterSMTP) {
       const res = await transporterSMTP.sendMail(messageParams);
+      await logMail({ source: 'sendSystemMail', messageParams, result: res });
       console.log('smtp transporter res: ', res?.response);
       if (!res.err) {
         if (extUserId) {
@@ -63,6 +65,7 @@ async function sendMailProvider(req) {
     } else {
       if (mailgunApiKey) {
         const res = await mailgunClient.messages.create(mailgunDomain, messageParams);
+        await logMail({ source: 'sendSystemMail', messageParams, result: res });
         console.log('mailgun res: ', res?.status);
         if (res.status === 200) {
           if (extUserId) {
@@ -76,6 +79,7 @@ async function sendMailProvider(req) {
     }
   } catch (err) {
     console.log(`sendSystemMail Error: ${err}`);
+    await logMail({ source: 'sendSystemMail', messageParams: { to: req.params?.recipient, subject: req.params?.subject, html: req.params?.html }, error: err });
     if (err) {
       return { status: 'error' };
     }
