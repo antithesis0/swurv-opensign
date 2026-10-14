@@ -36,6 +36,10 @@ import {
   clearAcroFields,
   isPdfPasswordProtected
 } from "../utils/acroFieldExtractor";
+import FileDropZone from "../components/shared/fields/FileDropZone";
+
+const UPLOAD_ACCEPT =
+  "application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg";
 
 // `Form` render all type of Form on this basis of their provided in path
 function Form() {
@@ -553,7 +557,7 @@ const Forms = (props) => {
         setIsSubmit(false);
       }
     } else {
-      alert(t("file-alert-3"));
+      alert(t("file-type-not-supported"));
     }
   });
 
@@ -849,21 +853,32 @@ const Forms = (props) => {
                   </div>
                 </div>
               ) : (
-                <div className="flex gap-1 justify-center items-center">
+                <FileDropZone
+                  accept={UPLOAD_ACCEPT}
+                  disabled={isSubmit}
+                  onFiles={(files) =>
+                    handleFileInput({ target: { files, value: "" } })
+                  }
+                  onReject={() => alert(t("file-type-not-supported"))}
+                  className="flex flex-col gap-1 justify-center items-center p-3"
+                >
+                  <span className="text-[13px] text-base-content/80">
+                    {t("drag-drop-or-browse")}
+                  </span>
                   <input
                     type="file"
                     multiple
                     className="op-file-input op-file-input-bordered op-file-input-sm focus:outline-none hover:border-base-content w-full text-xs"
                     onChange={(e) => handleFileInput(e)}
                     ref={inputFileRef}
-                    accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg"
+                    accept={UPLOAD_ACCEPT}
                     onInvalid={(e) =>
                       e.target.setCustomValidity(t("input-required"))
                     }
                     onInput={(e) => e.target.setCustomValidity("")}
                     required
                   />
-                </div>
+                </FileDropZone>
               )}
             </div>
             <div className="text-xs mt-2">
