@@ -57,7 +57,7 @@ const EditTemplate = ({
     AllowModifications: template?.AllowModifications || false,
     TimeToCompleteDays: template?.TimeToCompleteDays || 15,
   });
-  const pensList = ["blue", "red", "black"];
+  const pensList = ["black"];
   const [selectedColors, setSelectedColors] = useState(
     template?.PenColors || pensList
   );

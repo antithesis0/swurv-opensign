@@ -23,14 +23,14 @@ const COLOR_CLASS = {
 
 const ManageSign = () => {
   const { t } = useTranslation();
-  const [penColor, setPenColor] = useState("blue");
-  const [initialPen, setInitialPen] = useState("blue");
+  const [penColor, setPenColor] = useState("black");
+  const [initialPen, setInitialPen] = useState("black");
   const [image, setImage] = useState();
   const [signName, setSignName] = useState("");
   const [signature, setSignature] = useState("");
   const [warning, setWarning] = useState(false);
   const [isvalue, setIsValue] = useState(false);
-  const allColor = ["blue", "red", "black"];
+  const allColor = ["black"];
   const [isLoader, setIsLoader] = useState(true);
   const [isAlert, setIsAlert] = useState({ type: "success", message: "" });
   const [Initials, setInitials] = useState("");

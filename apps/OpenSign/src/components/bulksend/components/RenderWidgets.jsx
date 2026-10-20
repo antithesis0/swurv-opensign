@@ -439,7 +439,7 @@ const DrawWidget = ({ widget, isRequired, onChange, showLabel }) => {
   const canvasRef = useRef(null);
   const sigRequiredRef = useRef(null);
   const [hasDraw, setHasDraw] = useState("");
-  const [penColor, setPenColor] = useState("blue");
+  const [penColor, setPenColor] = useState("black");
   const [image, setImage] = useState("");
 
   useEffect(() => {

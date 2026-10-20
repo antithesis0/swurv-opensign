@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-const ALLOWED_COLORS = ["blue", "red", "black"];
+// Swurv: signatures are black only.
+const ALLOWED_COLORS = ["black"];
 
 const COLOR_CLASS = {
   blue: "text-blue-600",

@@ -120,7 +120,7 @@ function PrefillWidgetModal(props) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const canvasRefs = useRef({});
-  const [penColor, setPenColor] = useState("blue");
+  const [penColor, setPenColor] = useState("black");
   const prefillImg = useSelector((state) => state.widget.prefillImg);
   // Track already loaded image keys so they don't increment multiple times
   const loadedSet = useRef(new Set());

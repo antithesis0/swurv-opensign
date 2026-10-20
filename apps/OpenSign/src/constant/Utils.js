@@ -1544,7 +1544,7 @@ export function convertTextToImg(fontStyle, text, color, widgetDims) {
   const maxHeight = widgetDims.Height;
   const baselineFontSizePx = maxHeight;
   const fontFamily = fontStyle || "Fasthand";
-  const fillColor = color || "blue";
+  const fillColor = color || "black";
 
   // 1. Use a temporary canvas to measure actual text size
   const tempCanvas = document.createElement("canvas");

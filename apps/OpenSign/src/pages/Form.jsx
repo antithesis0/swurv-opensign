@@ -96,7 +96,7 @@ const Forms = (props) => {
   const [isAdvanceOpt, setIsAdvanceOpt] = useState(false);
   const [bcc, setBcc] = useState([]);
   const [cc, setCc] = useState([]);
-  const pensList = ["blue", "red", "black"];
+  const pensList = ["black"];
   const [selectedColors, setSelectedColors] = useState(pensList);
 
   const handleStrInput = (e) => {

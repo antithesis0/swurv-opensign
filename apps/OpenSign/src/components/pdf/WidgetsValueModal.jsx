@@ -188,9 +188,9 @@ function WidgetsValueModal(props) {
 
   const handlePenColor = () => {
     if (penColors && Array.isArray(penColors) && penColors?.length > 0) {
-      setPenColor(penColors?.[0] || "blue");
+      setPenColor("black");
     } else {
-      setPenColor("blue");
+      setPenColor("black");
     }
   };
   // below useEffect is used to focus text widgets when user open modal
